@@ -28,6 +28,7 @@ class RegisterController extends Controller
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->password = Hash::make($validated['password']);
+        $user->is_admin = false; // User biasa, bukan admin
         $user->save();
 
         Auth::login($user);

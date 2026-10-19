@@ -139,6 +139,41 @@
                 </div>
 
 
+                {{-- KATEGORI --}}
+                <div>
+
+                    <label
+                        for="category_id"
+                        class="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                        Kategori
+                        <span class="font-normal text-slate-400">
+                            (opsional)
+                        </span>
+                    </label>
+
+                    <select
+                        id="category_id"
+                        name="category_id"
+                        class="block w-full rounded-lg border border-slate-300 px-4 py-3 text-sm shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                    >
+                        <option value="">Pilih kategori...</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id', $post->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('category_id')
+                        <p class="mt-2 text-sm text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+
                 {{-- GAMBAR --}}
                 <div>
 
@@ -160,11 +195,13 @@
                         >
                     @endif
 
+                    <p class="mb-3 text-sm text-slate-500">Format JPG, PNG, WEBP, atau GIF. Maksimal 5 MB.</p>
+
                     <input
                         id="image"
                         type="file"
                         name="image"
-                        accept="image/jpeg,image/png,image/webp"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
                         class="block w-full rounded-lg border border-slate-300 px-4 py-3 text-sm shadow-sm outline-none transition file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-3 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     >
 

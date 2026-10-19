@@ -178,12 +178,21 @@
 
             </form>
 
-            <p class="mt-6 text-center text-sm text-slate-600">
-                Belum punya akun?
-                <a href="{{ route('register') }}" class="font-semibold text-indigo-700 transition hover:text-indigo-800">
-                    Daftar
-                </a>
-            </p>
+            @if($canRegisterAdmin ?? false)
+                <p class="mt-6 text-center text-sm text-slate-600">
+                    Belum punya akun admin?
+                    <a href="{{ route('first-admin.create') }}" class="font-semibold text-indigo-700 transition hover:text-indigo-800">
+                        Buat admin pertama
+                    </a>
+                </p>
+            @else
+                <p class="mt-6 text-center text-sm text-slate-600">
+                    Belum punya akun?
+                    <a href="{{ route('register') }}" class="font-semibold text-indigo-700 transition hover:text-indigo-800">
+                        Daftar
+                    </a>
+                </p>
+            @endif
 
         </section>
 
