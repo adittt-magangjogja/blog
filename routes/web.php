@@ -8,13 +8,21 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 
-Route::get('/admin/dashboard', fn () => view('admin.dashboard', [
-    'totalPosts' => \App\Models\Post::count(),
-]))->middleware(['auth', EnsureUserIsAdmin::class]);
+$adminDashboard = function () {
+    $recentPosts = \App\Models\Post::with('category')
+        ->latest()
+        ->take(5)
+        ->get();
 
-Route::get('/admin', fn () => view('admin.dashboard', [
-    'totalPosts' => \App\Models\Post::count(),
-]))->middleware(['auth', EnsureUserIsAdmin::class]);
+    return view('admin.dashboard', [
+        'totalPosts'    => \App\Models\Post::count(),
+        'postsThisWeek' => \App\Models\Post::where('created_at', '>=', now()->startOfWeek())->count(),
+        'recentPosts'   => $recentPosts,
+    ]);
+};
+
+Route::get('/admin/dashboard', $adminDashboard)->middleware(['auth', EnsureUserIsAdmin::class]);
+Route::get('/admin', $adminDashboard)->middleware(['auth', EnsureUserIsAdmin::class]);
 Route::get('/', function () {
     return redirect('/posts');
 });

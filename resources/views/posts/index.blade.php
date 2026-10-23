@@ -19,7 +19,7 @@
         }
     </style>
 
-    <style type="text/tailwindcss">
+    <style>
         @layer base {
             *, ::after, ::before {
                 border-color: var(--color-slate-200);
@@ -38,7 +38,7 @@
 
             {{-- Logo --}}
             <a href="{{ route('posts.index') }}"
-               class="text-2xl font-bold tracking-tight text-slate-900 flex-shrink-0">
+               class="text-2xl font-bold tracking-tight text-slate-900 shrink-0">
                 Blog<span class="text-slate-900">.</span>
             </a>
 
@@ -50,7 +50,7 @@
             </button>
 
             {{-- Menu Desktop & Mobile --}}
-            <div id="navMenu" class="hidden md:!flex absolute md:relative top-16 md:top-auto left-0 right-0 md:left-auto md:right-auto flex-col md:flex-row bg-white md:bg-transparent border-b md:border-b-0 md:items-center gap-0 text-base font-medium p-4 md:p-0">
+            <div id="navMenu" class="hidden md:flex! absolute md:relative top-16 md:top-auto left-0 right-0 md:left-auto md:right-auto flex-col md:flex-row bg-white md:bg-transparent border-b md:border-b-0 md:items-center gap-0 text-base font-medium p-4 md:p-0">
 
                 <a href="{{ route('posts.index') }}"
                    class="px-4 py-2 {{ request()->is('posts') || request()->is('/') ? 'text-slate-900 border-b-2 border-slate-900' : 'text-slate-600 transition hover:text-slate-900' }}">
@@ -109,8 +109,8 @@
 
 
     {{-- ================= HERO ================= --}}
-    <header class="relative overflow-hidden pb-24" style="background: #FFFFFF;">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-20 relative z-10">
+    <header class="relative overflow-hidden pb-12 sm:pb-24" style="background: #FFFFFF;">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-20 relative z-10">
             <div class="flex flex-col items-center text-center">
                 <div class="max-w-2xl">
                     <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-300 bg-slate-50 px-3 py-1 text-sm font-medium uppercase tracking-widest text-slate-600">
@@ -118,32 +118,39 @@
                         Selamat datang
                     </p>
 
-                    <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
+                    <h1 class="mt-4 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:mt-6 sm:text-5xl">
                         Temukan artikel,
                         <span class="text-slate-900">
                             ide, dan inspirasi.
                         </span>
                     </h1>
 
-                    <p class="mt-6 mb-6 text-base leading-7 text-slate-600 sm:text-lg">
+                    <p class="mt-4 mb-5 text-base leading-7 text-slate-600 sm:mt-6 sm:mb-6 sm:text-lg">
                         Kumpulan tulisan menarik dari berbagai topik, perspektif, dan pengalaman.
                     </p>
 
                     {{-- CATEGORY CHIPS --}}
-                    <div class="mt-10 mb-6 flex flex-wrap gap-2 justify-center overflow-x-auto pb-2">
-                        <span class="text-sm font-medium text-slate-600">Populer:</span>
+                    <div class="mt-6 mb-4 flex flex-wrap items-center justify-center gap-2 pb-2 sm:mt-10 sm:mb-6">
+                        <span class="w-full text-center text-sm font-medium text-slate-600 sm:w-auto">Populer:</span>
                         @foreach ($categories as $cat)
-                            <a href="{{ route('posts.index', ['category' => $cat->slug]) }}" 
-                               class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border"
-                               style="background-color: {{ request('category') === $cat->slug ? $cat->color . '20' : '#F5F5F5' }}; color: {{ request('category') === $cat->slug ? $cat->color : '#666666' }}; border-color: {{ request('category') === $cat->slug ? $cat->color : '#E0E0E0' }};
-">
+                            @php
+                                $aktif = request('category') === $cat->slug;
+                                $warna = $cat->color;
+                            @endphp
+                            <a href="{{ route('posts.index', ['category' => $cat->slug]) }}"
+                               class="inline-flex min-h-11 items-center px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition border"
+                               @style([
+                                   'background-color' => $aktif ? $warna . '20' : '#F5F5F5',
+                                   'color' => $aktif ? $warna : '#666666',
+                                   'border-color' => $aktif ? $warna : '#E0E0E0',
+                               ])>
                                 {{ $cat->name }}
                             </a>
                         @endforeach
                     </div>
 
                     {{-- BUTTONS --}}
-                    <div class="mt-10 mb-8 flex flex-wrap gap-3 justify-center">
+                    <div class="mt-6 mb-4 flex flex-wrap gap-3 justify-center sm:mt-10 sm:mb-8">
                         <a href="#artikel" class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-base font-medium text-white transition hover:opacity-85">
                             Mulai Baca
                             <span aria-hidden="true">→</span>
@@ -160,18 +167,18 @@
                 </div>
 
                 {{-- STATS COUNTER (1 BARIS KECIL) --}}
-                <div class="mt-16 flex w-full max-w-3xl justify-center gap-8">
-                    <div class="text-center">
+                <div class="mt-8 flex w-full max-w-3xl justify-center sm:mt-16">
+                    <div class="flex-1 text-center">
                         <p class="text-3xl font-bold text-slate-900">{{ $posts->total() }}</p>
                         <p class="mt-2 text-sm font-medium text-slate-600">Total Artikel</p>
                     </div>
                     <div class="border-l border-slate-300"></div>
-                    <div class="text-center">
+                    <div class="flex-1 text-center">
                         <p class="text-3xl font-bold text-slate-900">{{ \App\Models\Post::where('created_at', '>=', now()->subDays(7))->count() }}</p>
                         <p class="mt-2 text-sm font-medium text-slate-600">Minggu Ini</p>
                     </div>
                     <div class="border-l border-slate-300"></div>
-                    <div class="text-center">
+                    <div class="flex-1 text-center">
                         <p class="text-3xl font-bold text-slate-900">{{ \App\Models\User::count() }}</p>
                         <p class="mt-2 text-sm font-medium text-slate-600">Pembaca</p>
                     </div>
@@ -188,15 +195,15 @@
 
     {{-- ================= FEATURED POSTS ================= --}}
     @if ($featuredPosts->count())
-        <section class="mx-auto max-w-6xl px-4 sm:px-6 pt-12">
-            <div class="mb-6 flex items-center justify-between">
+        <section class="mx-auto max-w-6xl px-4 sm:px-6 pt-8 sm:pt-12">
+            <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
                 <div>
                     <p class="text-sm font-medium uppercase tracking-widest text-slate-600">Unggulan</p>
-                    <h2 class="mt-1 text-2xl font-bold tracking-tight text-slate-900">
+                    <h2 class="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
                         Artikel populer minggu ini
                     </h2>
                 </div>
-                <a href="{{ route('posts.index') }}" class="text-sm font-medium text-slate-900 transition hover:text-slate-600">
+                <a href="{{ route('posts.index') }}" class="min-h-11 inline-flex items-center text-sm font-medium text-slate-900 transition hover:text-slate-600">
                     Lihat semua →
                 </a>
             </div>
@@ -234,7 +241,7 @@
     @endif
 
     {{-- ================= ARTIKEL ================= --}}
-    <main class="mx-auto max-w-6xl px-4 sm:px-6 py-16">
+    <main class="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-16">
 
         {{-- Judul section --}}
         <div id="artikel" class="mb-10 flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
@@ -338,28 +345,41 @@
                     <article
                         class="group flex flex-col overflow-hidden rounded-lg border border-slate-200 bg-white transition duration-300 hover:border-slate-300">
 
-                        {{-- Gambar --}}
-                        <div class="aspect-video w-full overflow-hidden bg-slate-100">
-
+                        {{-- Gambar & Badge Kategori --}}
+                        <div class="relative aspect-video w-full overflow-hidden bg-slate-100">
                             @if ($post->image)
-
                                 <img
                                     src="{{ asset('storage/' . $post->image) }}"
                                     alt="{{ $post->title }}"
-                                    class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-
+                                    class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                             @else
-
                                 <div class="flex h-full items-center justify-center bg-slate-100">
-
                                     <span class="text-sm font-medium text-slate-500">
                                         Tidak ada gambar
                                     </span>
-
                                 </div>
-
                             @endif
 
+                            {{-- Category Badge on Top-Left --}}
+                            <div class="absolute top-3 left-3 z-10">
+                                @if ($post->category)
+                                    @php
+                                        $catColor = $post->category->color ?? '#2563EB';
+                                        $isLight = in_array(strtolower($catColor), ['#f59e0b', '#fcd34d', '#fbbf24', '#fde047', '#facc15', '#fef08a', '#ffeb3b']);
+                                    @endphp
+                                    <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold shadow-sm"
+                                          @style([
+                                              'background-color' => $catColor,
+                                              'color' => $isLight ? '#1F2937' : '#FFFFFF',
+                                          ])>
+                                        {{ $post->category->name }}
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center rounded-full bg-slate-800 px-3 py-1 text-xs font-bold text-white shadow-sm">
+                                        Umum
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
 
@@ -367,73 +387,57 @@
                         <div class="flex flex-1 flex-col p-6">
 
                             {{-- Meta (Tanggal & Penulis) --}}
-                            <div class="flex flex-wrap items-center gap-3 text-sm font-medium uppercase tracking-wide text-slate-600">
+                            <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-3">
                                 @if ($post->created_at)
-                                    <time>{{ $post->created_at->format('d M Y') }}</time>
+                                    <div class="flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <span>{{ $post->created_at->locale('id')->translatedFormat('j M Y') }}</span>
+                                    </div>
                                 @endif
-                                @if ($post->user)
-                                    <span class="text-slate-400">•</span>
-                                    <span>{{ $post->user->name }}</span>
-                                @endif
-                                <span class="text-slate-400">•</span>
-                                <span>{{ ceil(str_word_count(strip_tags($post->content)) / 200) }} min baca</span>
-                            </div>
 
-                            {{-- Category Chip --}}
-                            @if ($post->category)
-                                <div class="mt-3 inline-flex">
-                                    <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium" 
-                                          style="background-color: {{ $post->category->color }}20; color: {{ in_array($post->category->color, ['#F59E0B', '#FCD34D']) ? '#1F2937' : $post->category->color }}">
-                                        {{ $post->category->name }}
-                                    </span>
-                                </div>
-                            @else
-                                <div class="mt-3 inline-flex">
-                                    <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium bg-slate-100 text-slate-600">
-                                        Umum
-                                    </span>
-                                </div>
-                            @endif
+                                @if (isset($post->user) && $post->user)
+                                    <span class="text-slate-300">•</span>
+                                    <div class="flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                        <span>{{ $post->user->name }}</span>
+                                    </div>
+                                @endif
+                            </div>
 
 
                             {{-- Judul --}}
-                            <h3 class="mt-4 text-lg font-bold leading-snug text-slate-900">
-
-                                <a href="{{ route('posts.show', $post) }}"
-                                   class="transition hover:text-slate-600">
-
+                            <h3 class="text-lg font-bold leading-snug text-slate-900 group-hover:text-blue-600 transition">
+                                <a href="{{ route('posts.show', $post) }}" class="line-clamp-2">
                                     {{ $post->title }}
-
                                 </a>
-
                             </h3>
 
 
                             {{-- Isi singkat --}}
-                            <p class="mt-3 line-clamp-2 flex-1 text-sm leading-6 text-slate-600">
-
-                                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 100) }}
-
+                            <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-slate-600">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}
                             </p>
 
 
-                            {{-- Link --}}
-                            <a href="{{ route('posts.show', $post) }}"
-                               class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-slate-900 transition hover:gap-3">
+                            {{-- Footer Card (Mnt baca & Link) --}}
+                            <div class="mt-auto pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span>{{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} mnt baca</span>
+                                </div>
 
-                                Baca selengkapnya
-
-                                <span aria-hidden="true">
-                                    →
-                                </span>
-
-                            </a>
+                                <a href="{{ route('posts.show', $post) }}"
+                                   class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 transition hover:gap-2">
+                                    <span>Baca selengkapnya</span>
+                                    <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
 
                             @auth
                                 @if (auth()->user()->is_admin)
-                                    <div class="mt-5 flex items-center gap-4 border-t border-slate-100 pt-4">
+                                    <div class="mt-3 flex items-center gap-3 border-t border-slate-100 pt-3 text-xs">
                                         <a href="{{ route('posts.edit', $post) }}"
-                                           class="text-sm font-medium text-slate-600 transition hover:text-slate-900">
+                                           class="font-medium text-slate-600 transition hover:text-slate-900">
                                             Edit
                                         </a>
 
@@ -441,7 +445,7 @@
                                               onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-sm font-medium text-slate-600 transition hover:text-slate-900">
+                                            <button type="submit" class="font-medium text-red-600 transition hover:text-red-800">
                                                 Hapus
                                             </button>
                                         </form>
@@ -561,7 +565,7 @@
                     <div class="flex gap-3">
                         <a href="#" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-slate-300 transition hover:text-white hover:bg-slate-700">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
                         </a>
                         <a href="#" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 text-slate-300 transition hover:text-white hover:bg-slate-700">
@@ -589,7 +593,7 @@
                         @foreach ($categories as $cat)
                             <li>
                                 <a href="{{ route('posts.index', ['category' => $cat->slug]) }}" class="text-sm text-slate-400 transition hover:text-white flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full" style="background-color: {{ $cat->color }};"></span>
+                                    <span class="w-2 h-2 rounded-full" @style(['background-color' => $cat->color])></span>
                                     {{ $cat->name }}
                                 </a>
                             </li>
@@ -650,10 +654,12 @@
                 });
             });
 
-            // Reset menu saat resize ke md (768px)
+            // Pastikan status menu sesuai breakpoint setelah ukuran layar berubah.
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 768) {
                     navMenu.classList.remove('hidden');
+                } else {
+                    navMenu.classList.add('hidden');
                 }
             });
         }
