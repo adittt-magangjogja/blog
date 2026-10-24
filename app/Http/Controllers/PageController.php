@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Mail\ContactFormMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -35,6 +37,12 @@ class PageController extends Controller
         ]);
 
         ContactMessage::create($validated);
+
+        try {
+            Mail::to('aditltsh1992@gmail.com')->send(new ContactFormMail($validated));
+        } catch (\Exception $e) {
+            // Log or ignore mail transport error in local dev
+        }
 
         return redirect()->route('contact')
             ->with('success', 'Pesan berhasil dikirim. Kami akan merespons dalam 1x24 jam.');
