@@ -133,8 +133,8 @@
                         </div>
                         <div>
                             <h3 class="font-semibold text-slate-900">Email</h3>
-                            <a href="mailto:hello@blog.contoh" class="mt-1 text-sm text-blue-600 transition hover:underline">
-                                hello@blog.contoh
+                            <a href="mailto:aditltsh1992@gmail.com" class="mt-1 text-sm text-blue-600 transition hover:underline">
+                                aditltsh1992@gmail.com
                             </a>
                         </div>
                     </div>
