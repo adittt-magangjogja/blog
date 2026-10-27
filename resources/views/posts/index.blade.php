@@ -42,13 +42,6 @@
                 Blog<span class="text-slate-900">.</span>
             </a>
 
-            {{-- Mobile menu toggle --}}
-            <button id="mobileMenuToggle" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 hover:bg-slate-100 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-
             {{-- Menu Desktop & Mobile --}}
             <div id="navMenu" class="hidden md:flex! absolute md:relative top-16 md:top-auto left-0 right-0 md:left-auto md:right-auto flex-col md:flex-row bg-white md:bg-transparent border-b md:border-b-0 md:items-center gap-0 text-base font-medium p-4 md:p-0">
 
@@ -95,13 +88,24 @@
                             Keluar
                         </button>
                     </form>
-                @else
+                @endauth
+
+            </div>
+
+            <div class="flex shrink-0 items-center gap-2">
+                @guest
                     <a href="{{ route('login') }}"
                        class="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50">
                         Login
                     </a>
-                @endauth
+                @endguest
 
+                {{-- Mobile menu toggle --}}
+                <button id="mobileMenuToggle" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 hover:bg-slate-100 transition" aria-label="Buka menu navigasi">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
 
         </div>
@@ -420,7 +424,7 @@
 
 
                             {{-- Footer Card (Mnt baca & Link) --}}
-                            <div class="mt-auto pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-sm">
+                            <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-4 text-sm">
                                 <div class="flex items-center gap-1.5 text-xs text-slate-500">
                                     <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     <span>{{ max(1, ceil(str_word_count(strip_tags($post->content)) / 200)) }} mnt baca</span>

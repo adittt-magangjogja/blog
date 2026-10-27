@@ -68,7 +68,7 @@
     </nav>
 
     {{-- ================= HERO ================= --}}
-    <header class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100">
+    <header class="relative overflow-hidden bg-linear-to-br from-blue-50 via-blue-100 to-indigo-100">
         <div class="absolute inset-0 opacity-20">
             <div class="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-400 blur-3xl"></div>
             <div class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-indigo-400 blur-3xl"></div>
@@ -166,7 +166,7 @@
 
                         {{-- Avatar inisial --}}
                         <div class="flex items-center gap-4">
-                            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br {{ $user->is_admin ? 'from-amber-400 to-orange-500' : 'from-blue-400 to-indigo-500 }} text-lg font-bold text-white">
+                          <div class="flex h-14 w-14 items-center justify-center rounded-full bg-linear-to-br {{ $user->is_admin ? 'from-amber-400 to-orange-500' : 'from-blue-400 to-indigo-500' }} text-lg font-bold text-white">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
 
