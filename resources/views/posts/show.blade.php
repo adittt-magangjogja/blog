@@ -12,7 +12,7 @@
 <body class="min-h-screen bg-slate-50 text-slate-900">
 
     {{-- ================= READING PROGRESS BAR ================= --}}
-    <div id="reading-progress" class="fixed top-0 left-0 z-50 h-1 w-0 bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-150"></div>
+    <div id="reading-progress" class="fixed top-0 left-0 z-50 h-1 w-0 bg-linear-to-r from-blue-500 to-indigo-500 transition-all duration-150"></div>
 
 
     {{-- NAVBAR --}}
@@ -57,7 +57,7 @@
 
 
     {{-- ================= HERO HEADER (ARTIKEL) ================= --}}
-    <header class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <header class="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-indigo-50">
         <div class="absolute inset-0 opacity-30">
             <div class="absolute -top-32 -right-32 h-80 w-80 rounded-full bg-blue-200 blur-3xl"></div>
             <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-indigo-200 blur-3xl"></div>
@@ -94,7 +94,7 @@
             </h1>
 
             {{-- Subtle divider --}}
-            <div class="mt-8 h-px w-full bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+            <div class="mt-8 h-px w-full bg-linear-to-r from-transparent via-blue-200 to-transparent"></div>
 
         </div>
     </header>
@@ -106,7 +106,7 @@
         {{-- GAMBAR UTAMA --}}
         @if ($post->image)
 
-            <div class="-mx-6 mt-0 overflow-hidden sm:-mx-12 sm:mt-[-60px] sm:max-w-none">
+            <div class="-mx-6 mt-0 overflow-hidden sm:-mx-12 sm:-mt-15 sm:max-w-none">
                 <div class="mx-auto max-w-5xl px-6 sm:px-12">
 
                     <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50">
@@ -128,7 +128,7 @@
         {{-- ADMIN ACTIONS BAR --}}
         @auth
             @if (auth()->user()->is_admin)
-                <div class="sticky top-[65px] z-30 mt-8 flex flex-wrap items-center gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4 backdrop-blur-sm">
+                <div class="sticky top-16 z-30 mt-8 flex flex-wrap items-center gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4 backdrop-blur-sm">
 
                     <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">Mode Admin</span>
 
@@ -172,7 +172,7 @@
         {{-- ================= DIVIDER + SHARE ================= --}}
         <div class="mt-16 flex flex-col items-center gap-6">
 
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
+            <div class="h-px w-full bg-linear-to-r from-transparent via-slate-300 to-transparent"></div>
 
             <p class="text-sm text-slate-500">Artikel ini bermanfaat? Share ke teman-teman!</p>
 
